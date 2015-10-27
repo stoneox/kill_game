@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>狼人杀</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<link rel="stylesheet" href="lib/jquery.mobile-1.4.5.min.css">
+	<script src="lib/jquery-2.1.1.js"></script>
+	<script src="lib/jquery.mobile-1.4.5.min.js"></script>
+	<script src="lib/jquery-migrate-1.2.1.min.js"></script>
+	<script src="lib/text.js"></script>
+	<link rel="stylesheet" href="lib/main.css">
+	
+	<script src="lib/no_card.js"></script>
+
+
+</head>
+<body >
+	<div id='container'>
+	<div data-role="page" id="person_role" >
+		<img src="image/ic_launcher.png" class="banner" alt="">
+		<div  data-role="fieldcontain" class="input_div"><label for="person_num">总人数:</label><input type="text" id="person_num" name="person_num"></div>
+		<div data-role="fieldcontain" class="input_div"><label for="wolf_num">狼人数:</label><input type="text" id="wolf_num" name="wolf_num"></div>
+		<div class="input_div"><label for="police_input">警长</label><input type="checkbox" id="police_input" name="police"></div>
+		<div class="input_div"><label for="hurter_input">猎人</label><input type="checkbox" id ="hurter_input" name="hurter"></div>
+		<div class="input_div"><label for="oldman_input">长老</label><input type="checkbox" id="oldman_input" name="oldman"></div>
+		<div class="input_div"><label for="soldiers_input">守卫</label><input type="checkbox" id="soldiers_input" name="soldiers"></div>
+		
+		
+		
+		
+		<a href="#person_name" id="page1_button"><img src="image/ic_next_tip.png" alt="next"></a>
+	</div>
+
+	<div id="person_name" data-role="page" style="background:#FFFF00;">
+		<img src="image/ic_launcher.png" class="banner" alt="">
+		<p>请在以下输入框内输入玩家姓名或昵称</p>
+		<div id="person_name_include">
+			<a href="#game_index" id="confirm"><img class="big_icon" src="image/ic_confirm.png" alt="confirm"></a>
+		</div>
+	</div>
+
+	<div id="game_index" data-role="page" style="background:#FFFF00;">
+		<div id="game_person" style="margin:0 auto;width:90%;background:#CCC;"></div>
+		<div id="handle">
+			<button data-inline='true'>解药</button>
+			<button data-inline='true'>毒药</button>
+			<button data-inline='true'>长老</button>
+			<a href="" id="look">忘记</a>
+			<div id="tips"><span>点击游戏开始</span></div>
+			<img class="big_icon" id="reset" src="image/ic_replay_black.png" alt="" style="display:inline-block">
+			<img src="image/ic_start.png" alt="" class="big_icon" id="card" style="display:inline-block">
+		<br>
+			<img class="mp" id="replay" style="disabled:disabled;opacity:0.4;" src="image/ic_replay.png" alt="">
+			<div id="begin_button"><span>游戏开始</span></div>
+			<img class="mp" id="next" style="disabled:disabled;opacity:0.4;" src="image/ic_next_tip.png" alt="">
+			<audio id="dark_wav" src="audio/dark.wav"></audio>
+			<audio id="oldman_wake_wav" src="audio/oldman_wake.wav"></audio>
+			<audio id="soldiers_wake_wav" src="audio/soldiers_wake.wav"></audio>
+			<audio id="light_wav" src="audio/light.wav"></audio>
+			<audio id="wolf_kill_wav" src="audio/wolf_kill.wav"></audio>
+			<audio id="seer_wake_wav" src="audio/seer_wake.wav"></audio>
+			<audio id="witch_wake_wav" src="audio/witch_wake.wav"></audio>
+			<audio id="witch_save_wav" src="audio/witch_save.wav"></audio>
+			<audio id="witch_death_wav" src="audio/witch_death.wav"></audio>
+			<audio id="light_police_wav" src="audio/light_police.wav"></audio>
+
+		</div>
+	</div>
+
+
+</div>
+	<script>
+		$(function(){
+				$('#reset').hover(function(){
+					$(this).attr('src','image/ic_replay_black_click.png');
+				},
+				function(){
+					$(this).attr('src','image/ic_replay_black.png');
+				})
+
+				$('#card').hover(function(){
+					$(this).attr('src','image/ic_start_click.png');
+				},
+				function(){
+					$(this).attr('src','image/ic_start.png');
+				})
+
+				$('#replay').hover(function(){
+					$(this).attr('src','image/ic_replay_click.png');
+				},
+				function(){
+					$(this).attr('src','image/ic_replay.png');
+				})
+
+				$('#next').hover(function(){
+					$(this).attr('src','image/ic_next_tip_click.png');
+				},
+				function(){
+					$(this).attr('src','image/ic_next_tip.png');
+				})
+
+
+
+			$("#page1_button").click(function(){							//获取游戏人数
+				var person_number = $("#person_num").val();
+				sessionStorage.setItem("number",person_number);
+				for(var i = 0;i < person_number;i++){
+					$("#person_name #person_name_include").prepend('<div data-role="fieldcontain" class="input_div"><lable>昵称:</lable><input type="text" /></div>')
+				}
+			})
+			$("#confirm").click(function(){									//获取游戏人员的昵称，生成游戏主页面
+				var person_number = sessionStorage.getItem("number");
+				var name_array = [];
+				for (var i = 0; i < person_number; i++) {
+					name_array[i] = $("#person_name input").eq(i).val();			
+				};
+			
+				sessionStorage.setItem("name",JSON.stringify(name_array));			//将昵称数组转换为JSON存储
+
+
+
+				for (var i = 0; i < name_array.length; i++) {
+					$("#game_person").append('<div class="person_head"><img class="person_head_img person alive" style="width:64px;heigh:64px;" src="image/empty_photo.png" alt="" /><ul class="game_role"><li class="person_li">平民</li><li class="wolf_li">狼人</li><li class="seer_li">预言家</li><li class="witch_li">女巫</li><li>取消</li></ul><ul class="game_state"><li>死亡</li><li>毒杀</li><li>守卫</li><li>解药</li><li>濒死</li></ul></div>');
+					
+					if($("input[name='police']").prop("checked")==true){		//判断警长选择
+						$(".game_role").eq(i).prepend('<li class="police_li">警长</li>');
+						$('.police_li').toggle(function(){
+						$(this).parents('.person_head').append('<img id="police" src="image/police.png" alt="" />');
+						$(this).parents('.person_head').find("ul").hide();
+						},
+				function(){
+					$(this).parents('.person_head').find("#police").remove();
+					$(this).parents('.person_head').find("ul").hide();
+				})				//警长
+
+				}
+
+				if($("input[name='oldman']").prop("checked")==true){
+					$(".game_role").eq(i).prepend('<li class="oldman_li">长老</li>');
+					$('.oldman_li').click(function(){
+					$(this).parents('ul').prev().attr('src','image/laoren.jpg');
+					$(this).parents('ul').prev().removeClass('wolf');
+					$(this).parents('ul').prev().addClass("person");
+				})			//长老
+				}
+
+				if($("input[name='soldiers']").prop("checked")==true){
+					$(".game_role").eq(i).prepend('<li class="soldiers_li">守卫</li>');
+					$('.soldiers_li').click(function(){
+					$(this).parents('ul').prev().attr('src','image/ic_begin_guard.png');
+					$(this).parents('ul').prev().removeClass('wolf');
+					$(this).parents('ul').prev().addClass("person");
+				})			//守卫
+				}
+				if($("input[name='hurter']").prop("checked")==true){
+					$(".game_role").eq(i).prepend('<li class="hurter_li">猎人</li>');
+					$('.hurter_li').click(function(){
+					$(this).parents('ul').prev().attr('src','image/hurter.jpg');
+					$(this).parents('ul').prev().addClass('hurter');
+					$(this).parents('ul').prev().removeClass('wolf');
+					$(this).parents('ul').prev().addClass("person");
+				})			//猎人
+				}					
+
+
+					$('.wolf_li').click(function(){
+					$(this).parents('ul').prev().attr('src','image/ic_begin_werewolf.png');
+					$(this).parents('ul').prev().removeClass('person');
+					$(this).parents('ul').prev().addClass("wolf");
+				})	//狼人
+
+					$('.person_li').click(function(){
+					$(this).parents('ul').prev().attr('src','image/people.png');
+					$(this).parents('ul').prev().removeClass('wolf');
+					$(this).parents('ul').prev().addClass("person");
+				})	
+					$('.seer_li').click(function(){
+					$(this).parents('ul').prev().attr('src','image/ic_begin_seer.png');
+					$(this).parents('ul').prev().removeClass('wolf');
+					$(this).parents('ul').prev().addClass("person");
+				})		//预言家
+					$('.witch_li').click(function(){
+					$(this).parents('ul').prev().attr('src','image/ic_begin_witch_kill.png');
+					$(this).parents('ul').prev().removeClass('wolf');
+					$(this).parents('ul').prev().addClass("person");
+				})		//女巫
+					
+					
+					$(".person_head").eq(i).find('.game_role li:last-child').click(function(){		
+					$(this).parents('.person_head').find(".person_head_img").attr('src','image/empty_photo.png');
+				})			//取消
+
+					$(".person_head").eq(i).find('.game_state li').eq(0).toggle(function(){		//猎杀
+					$(this).parents('.person_head').find('.small_pic').remove();
+					$(this).parents('.person_head').addClass('lastDead');
+					$(this).parents('.person_head').find('img').css('opacity','0.5');
+					$(this).parents('.person_head').find('img').removeClass('alive');
+					$(this).parents('.person_head').append('<img class="small_pic" src="image/ic_death.png" alt="" />');
+					$(this).parents('.person_head').find("ul").hide();
+				},
+				function(){
+					$(this).parents('.person_head').find('.small_pic').remove();
+					$(this).parents('.person_head').removeClass('lastDead');
+					$(this).parents('.person_head').find('img').css('opacity','1.0');
+					$(this).parents('.person_head').find('img').addClass('alive');
+					$(this).parents('.person_head').find("ul").hide();
+				})
+
+
+
+					$(".person_head").eq(i).find('.game_state li').eq(1).toggle(function(){		//毒杀
+						$(this).parents('.person_head').find('.small_pic').remove();
+						$(this).parents('.person_head').addClass('lastDead');
+						$(this).parents('.person_head').find('img').css('opacity','0.5');
+						$(this).parents('.person_head').find('img').removeClass('alive');
+						$("#handle button").eq(1).attr('disabled','disabled');
+					$(this).parents('.person_head').append('<img class="small_pic" src="image/yao_death.jpg" alt="" />');
+					$(this).parents('.person_head').find("ul").hide();
+				},
+				function(){
+					$(this).parents('.person_head').find('.small_pic').remove();
+						$(this).parents('.person_head').removeClass('lastDead');
+						$(this).parents('.person_head').find('img').css('opacity','1.0');
+						$(this).parents('.person_head').find('img').addClass('alive');
+						$("#handle button").eq(1).removeAttr('disabled');
+						$(this).parents('.person_head').find("ul").hide();
+				})
+
+
+
+					$(".person_head").eq(i).find('.game_state li').eq(2).toggle(function(){		//被守卫
+						$(this).parents('.person_head').find('.small_pic').remove();
+					$(this).parents('.person_head').append('<img id="shlide_img" class="small_pic" src="image/shlide.jpg" alt="" />');
+					$(this).parents('.person_head').find("ul").hide();
+				},
+				function(){
+					$(this).parents('.person_head').find('.small_pic').remove();
+					$(this).parents('.person_head').find("ul").hide();
+				})
+					
+
+					$(".person_head").eq(i).find('.game_state li').eq(3).toggle(function(){			//被救
+						$(this).parents('.person_head').find('.small_pic').remove();
+						$("#handle button").eq(0).attr('disabled','disabled');
+						$(this).parents('.person_head').find('img').css('opacity','1.0');
+						$(this).parents('.person_head').find('img').removeClass('die');
+						$(this).parents('.person_head').removeClass('lastDead');
+					$(this).parents('.person_head').append('<img id="save" class="small_pic" src="image/save.png" alt="" />');
+					$(this).parents('.person_head').find("ul").hide();
+				},function(){
+					$(this).parents('.person_head').find('.small_pic').remove();
+						$("#handle button").eq(0).removeAttr('disabled');
+						$(this).parents('.person_head').find("ul").hide();
+				})
+
+
+
+
+					$(".person_head").eq(i).find('.game_state li').eq(4).toggle(function(){			//濒死
+						$(this).parents('.person_head').find('.small_pic').remove();
+						$("#handle button").eq(2).attr('disabled','disabled');
+					$(this).parents('.person_head').append('<img class="small_pic" src="image/heart.png" alt="" />');
+					$(this).parents('.person_head').find("ul").hide();
+				},
+				function(){
+					$(this).parents('.person_head').find('.small_pic').remove();
+					$("#handle button").eq(2).removeAttr('disabled');
+					$(this).parents('.person_head').find("ul").hide();
+				})
+				
+			};
+			var flag = 0;	
+			$(".person_head").click(function(){					//点击头像隐藏
+					if(flag == 0){
+					$(this).find('ul').show();
+					flag=1;
+					}
+					else{
+						$(".person_head").find('ul').hide();
+						flag=0;
+					}
+				})
+				
+			/*$(".person_head").find('li').click(function(){
+				$(".person_head ul").hide();
+			})*/
+				for (var i = 0; i < name_array.length; i++) {
+					$(".person_head").eq(i).append('<p></p>');
+					$(".person_head p").eq(i).text(name_array[i]);
+				};
+			})
+
+		})
+	</script>
+</body>
+</html>

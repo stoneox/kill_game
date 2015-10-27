@@ -1,0 +1,138 @@
+	* {margin: 0;padding: 0;}
+	img {
+		width: 64px;
+		height: 64px;
+	}
+	#person_role,#person_name,#game_index {
+		background:#FFFF00;text-align:center;
+	}
+	.banner {
+		width:100px;height:100px;
+	}
+	.input_div {
+		width: 300px;
+		margin: 0 auto;
+	}
+	#game_index button {
+		display: inline-block;
+	}
+
+	#police {
+		position: absolute;
+		left: 5px;
+		bottom: 75px;
+		width: 60px;
+		height: 40px;
+		z-index: 2;
+	}
+
+	.person_head ul {
+		width: 80px;
+		position: absolute;
+		z-index: 999;
+		background: #FF8C00;
+		list-style: none;
+		display: none;
+	}
+	.person_head ul li {
+		margin:10px 0;
+		height: 40px;
+		text-align: center;
+		font:20px 'Micorsoft YaHei';
+		line-height: 40px; 
+	}
+	.person_head ul li:link,.person_head ul li:hover {
+		background: red;
+	}
+	.person_head ul li:visited {
+		background: #FF8C00;
+	}
+	.person_head {							
+		display: inline-block;
+		text-align: center;
+		margin: 10px;
+		padding: 5px 2px;
+		position: relative;
+	}
+	.game_state {
+		
+		left: 50px;
+		top: 50px;
+	}
+	.game_role {
+		
+		right: 50px;
+		top: 50px;
+	}
+
+
+
+	
+	#tips {
+		width: 250px;
+		height: 70px;
+		background:#FF8C00;
+		border: 2px dotted black;
+		margin: 10px auto;
+		text-align: center;
+	}
+	#tips span {
+		font: bold 14px "Microsoft YaHei";
+
+	}
+	#begin_button {
+		width: 130px;
+		height: 64px;
+		margin: 5px;
+		background: #FF8C00;
+		border-radius: 10px;
+		text-align: center;
+		line-height: 64px;
+		display: inline-block;
+		vertical-align: top;
+	}
+	#begin_button span {
+		font:bold 14px "Microsoft YaHei";
+		color: white;
+	}
+	#handle {
+		text-align: center;
+
+	}
+	#handle a {
+		display: inline-block;
+		width: 60px;
+		height: 30px;
+		padding: 10px 0 4px 0;
+		background: #FF8C00;
+		border-radius: 10px;
+		text-align: center;
+		text-decoration: none;
+		color: black;
+		vertical-align: middle;
+	}
+	.mp {
+		margin: 5px 10px;
+		
+	}
+	.lastDead {
+		background: red;
+	}
+	.small_pic {
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		left:50px;
+		top: 50px;
+		z-index: 10; 
+	}
+	.big_icon {
+		width: 120px;
+		height: 60px;
+		display: block;
+		margin: 5px auto;
+	}
+	.alive {}
+	.wolf {}
+	.person {}
+	.hurter {}

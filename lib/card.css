@@ -1,0 +1,83 @@
+
+.person_page {
+	margin: 0 auto;
+	text-align: center;
+	position: relative;
+	
+	background: yellow;
+}
+.person_page div{
+	width: 300px;
+	height: 350px;
+	background:#FF8C00;
+	text-align: center;
+	position: absolute;
+	top: 0;
+	padding: 10px 0 0 0;
+	left: 50%;
+	perspective:500px;
+	margin-left: -150px;
+	border-radius: 5px;
+}
+.front {
+	z-index: 1000;
+	backface-visibility: hidden;
+}
+.person_page div img {
+	width: 270px;
+	height: 300px;
+	position: absolute;
+	left:50%;
+	margin-left: -135px;
+}
+.person_page div span {
+	font:20px 'Microsoft YaHei';
+	text-align: center;
+	display: block;
+	position: relative;
+	top: 305px;
+}
+.person_page button {
+	width: 300px;
+	position: absolute;
+	left: 50%;
+	margin-left: -150px;
+	top:360px;
+}
+.person_page a,#god a {
+	width: 300px;
+	height: 55px;
+	background: #FF8C00;
+	line-height: 55px;
+	display: block;
+	text-align: center;
+	left: 50%;
+	margin-left: -150px;
+	top: 430px;
+	position: absolute;
+	text-decoration: none;
+	border-radius: 6px;
+}
+#god {
+	margin: 0 auto;
+	text-align: center;
+}
+#god img {
+	width: 300px;
+	height: 300px;
+	display: block;
+	margin: 0 auto;
+}
+#god span {
+	display: block;
+	font:20px 'Microsoft YaHei';
+	margin-top: 10px;
+}
+.active {
+	-webkit-transition:-webkit-transform 1s linear;
+	-webkit-transform:rotateY(180deg);
+}
+.active_back {
+	-webkit-transition:-webkit-transform 1s linear;
+	-webkit-transform:rotateY(0deg);
+}
